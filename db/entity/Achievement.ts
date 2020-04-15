@@ -5,7 +5,7 @@ import { UserToAchievement } from './UserToAchievement'
 export class Achievement {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ length: 255, nullable: false, unique: true })
     name: string;

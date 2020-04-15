@@ -1,4 +1,4 @@
-import getConnection from '../db-connect'
+import { getRepository } from 'typeorm'
 import { Post } from '../entity/Post'
 
 type PostCreateBody = {
@@ -14,24 +14,16 @@ type PostUpdateBody = {
 }
 
 export const getPostById = async (id: string) => {
-
   try {
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post)
-
-    return postRepository.findOne({ where: { id } });
+    return getRepository(Post).findOne({ where: { id } });
   } catch (error) {
     return error
   }
 }
 
 export const getPostsByUserId = async (userId: string) => {
-
   try {
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post)
-
-    return postRepository.find({ where: { userId } });
+    return getRepository(Post).find({ where: { userId } });
   } catch (error) {
     return error
   }
@@ -39,10 +31,7 @@ export const getPostsByUserId = async (userId: string) => {
 
 export const getPosts = async () => {
   try {
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post);
-
-    return postRepository.find();
+    return getRepository(Post).find();
   } catch (error) {
     return error
   }
@@ -50,10 +39,7 @@ export const getPosts = async () => {
 
 export const createPost = async (data: PostCreateBody) => {
   try {
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post);
-
-    return postRepository.save(data);
+    return getRepository(Post).save(data);
   } catch (error) {
     return error;
   }
@@ -67,10 +53,7 @@ export const updatePost = async (data: PostUpdateBody) => {
       content,
     } = data;
 
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post);
-
-    return postRepository.update(id, {
+    return getRepository(Post).update(id, {
       title,
       content,
       isEdited: true,
@@ -83,11 +66,7 @@ export const updatePost = async (data: PostUpdateBody) => {
 
 export const deletePost = async (id: string) => {
   try {
-
-    const connection = await getConnection();
-    const postRepository = connection.getRepository(Post);
-
-    return postRepository.delete(id);
+    return getRepository(Post).delete(id);
   } catch (error) {
     return error;
   }

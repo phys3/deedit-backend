@@ -2,6 +2,7 @@ import { gql } from 'apollo-server'
 
 import { 
   getUserByUsername,
+  getUserById,
   getUsers,
   createUser,
   updateUser,
@@ -23,18 +24,22 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    addUser(username: String!, email: String!, passwordHash: String!, firstName: String, lastName: String, userRoleId: String!): Boolean!
-    updateUser(id: String!, username: String, email: String, passwordHash: String, firstName: String, lastName: String): Boolean!
+    addUser(username: String!, email: String!, passwordHash: String!, firstName: String, lastName: String, userRoleId: String!): User!
+    updateUser(id: String!, username: String, email: String, passwordHash: String, firstName: String, lastName: String): User!
     deleteUser(id: String!): Boolean!
   }
 
   type User {
-    id: Int!
-    username: String!
-    email: String!
-    passwordHash: String!
+    id: String!
+    username: String
+    email: String
+    passwordHash: String
     firstName: String
     lastName: String
+    settings: String
+    isBlocked: Boolean
+    createdAt: String
+    updatedAt: String
     userRoleId: String
     userRole: UserRole
     posts: [Post]
@@ -56,7 +61,7 @@ export const resolvers = {
     addUser: async (_: any, args: any) => {
       const { username, firstName, lastName, email, passwordHash, userRoleId } = args;
       try {
-        await createUser({
+        return createUser({
           username,
           firstName,
           lastName,
@@ -64,9 +69,8 @@ export const resolvers = {
           passwordHash,
           userRoleId
         });
-        return true;
       } catch (error) {
-        return false;
+        return error
       }
     },
     updateUser: async (_: any, args: any) => {
@@ -80,9 +84,9 @@ export const resolvers = {
           email,
           passwordHash,
         });
-        return true;
+        return getUserById(id);
       } catch (error) {
-        return false;
+        return error;
       }
     },
     deleteUser: async (_: any, args: any) => {
@@ -91,7 +95,7 @@ export const resolvers = {
         await deleteUser(id);
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     }
   },

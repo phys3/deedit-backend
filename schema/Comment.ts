@@ -21,13 +21,13 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    createComment(postId: String!, userId: String!, content: String!): Boolean!
+    createComment(postId: String!, userId: String!, content: String!): Comment!
     updateComment(id: String!, content: String!): Boolean!
     deleteComment(id: String!): Boolean!
   }
 
   type Comment {
-    id: Int!
+    id: String!
     content: String!
     userId: String!
     postId: String!
@@ -48,10 +48,9 @@ export const resolvers = {
     createComment: async (_: any, args: any) => {
       const { postId, userId, content } = args;
       try {
-        await createComment({ postId, userId, content });
-        return true;
+        return createComment({ postId, userId, content });
       } catch (error) {
-        return false;
+        return error;
       }
     },
     updateComment: async (_: any, args: any) => {
@@ -60,7 +59,7 @@ export const resolvers = {
         await updateComment({ id, content });
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     },
     deleteComment: async (_: any, args: any) => {
@@ -69,7 +68,7 @@ export const resolvers = {
         await deleteComment(id);
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     }
   },

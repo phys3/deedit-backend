@@ -15,9 +15,10 @@ Table of Contents
 2. Install 10.x.x version of [Node](https://nodejs.org/en/). We used Node v10.14.1
 3. Install 6.x.x version of [NPM](https://www.npmjs.com/). We used NPM 6.4.1
 
-### Install depencdency packages through npm
+### Install dependency packages through npm
 ```
 npm install
+npm install -g typeorm
 ```
 
 ### Setup database

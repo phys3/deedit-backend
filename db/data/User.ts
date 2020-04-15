@@ -1,4 +1,4 @@
-import getConnection from '../db-connect'
+import { getRepository } from 'typeorm'
 import { User } from '../entity/User'
 
 type UserCreateBody = {
@@ -20,12 +20,8 @@ type UserUpdateBody = {
 }
 
 export const getUserByUsername = async (username: string) => {
-
   try {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User)
-
-    return userRepository.findOne({
+    return getRepository(User).findOne({
       where: {
         username,
       },
@@ -44,12 +40,8 @@ export const getUserByUsername = async (username: string) => {
 }
 
 export const getUserById = async (id: string) => {
-
   try {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User)
-
-    return userRepository.findOne({ where: { id } });
+    return getRepository(User).findOne({ where: { id } });
   } catch (error) {
     return error
   }
@@ -57,9 +49,7 @@ export const getUserById = async (id: string) => {
 
 export const getUsers = async () => {
   try {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User);
-    const dbResult = await userRepository.find({
+    return getRepository(User).findAndCount({
       // join: {
       //   alias: 'user',
       //   leftJoinAndSelect: {
@@ -69,7 +59,6 @@ export const getUsers = async () => {
       //   }
       // }
     });
-    return dbResult;
   } catch (error) {
     return error
   }
@@ -77,10 +66,7 @@ export const getUsers = async () => {
 
 export const createUser = async (data: UserCreateBody) => {
   try {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User);
-
-    return userRepository.save(data);
+    return getRepository(User).save(data);
   } catch (error) {
     return error;
   }
@@ -97,10 +83,7 @@ export const updateUser = async (data: UserUpdateBody) => {
       passwordHash,
     } = data;
 
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User);
-  
-    return userRepository.update(id, {
+    return getRepository(User).update(id, {
       username,
       firstName,
       lastName,
@@ -108,7 +91,6 @@ export const updateUser = async (data: UserUpdateBody) => {
       passwordHash,
       // updatedAt: Date.now().toString()
     });
-  
   } catch (error) {
     return error;
   }
@@ -116,10 +98,7 @@ export const updateUser = async (data: UserUpdateBody) => {
 
 export const deleteUser = async (id: string) => {
   try {
-    const connection = await getConnection();
-    const userRepository = connection.getRepository(User);
-
-    return userRepository.delete(id);
+    return getRepository(User).delete(id);
   } catch (error) {
     return error;
   }

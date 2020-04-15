@@ -9,7 +9,7 @@ import { UserToAchievement } from './UserToAchievement'
 export class User {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ type: 'uuid' })
     userRoleId: string;
@@ -20,10 +20,10 @@ export class User {
     @Column({ length: 255, nullable: false, unique: true })
     email: string;
 
-    @Column({ length: 255 })
+    @Column({ length: 255, nullable: true })
     firstName: string;
 
-    @Column({ length: 255 })
+    @Column({ length: 255, nullable: true })
     lastName: string;
 
     @Column({ length: 255, nullable: false })

@@ -1,12 +1,9 @@
-import getConnection from '../db-connect'
+import { getRepository } from 'typeorm'
 import { Achievement } from '../entity/Achievement'
 
 export const getAchievementsById = async (achievementId: string) => {
   try {
-    const connection = await getConnection();
-    const achievementRepository = connection.getRepository(Achievement)
-
-    return achievementRepository.findOne({
+    return getRepository(Achievement).findOne({
       where: {
         id: achievementId,
       },
@@ -18,12 +15,8 @@ export const getAchievementsById = async (achievementId: string) => {
 
 export const getAchievements = async () => {
   try {
-    const connection = await getConnection();
-    const achievementRepository = connection.getRepository(Achievement);
-    return achievementRepository.find();
+    return getRepository(Achievement).find();
   } catch (error) {
     return error
   }
 }
-
-module.exports = { getAchievementsById, getAchievements }

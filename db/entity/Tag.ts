@@ -5,7 +5,7 @@ import { Post } from './Post'
 export class Tag {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ type: 'uuid' })
     postId: string;

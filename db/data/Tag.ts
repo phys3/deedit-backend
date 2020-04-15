@@ -1,4 +1,4 @@
-import getConnection from '../db-connect'
+import { getRepository } from 'typeorm'
 import { Tag } from '../entity/Tag'
 
 type TagCreateBody = {
@@ -7,24 +7,16 @@ type TagCreateBody = {
 }
 
 export const getTagById = async (id: string) => {
-
   try {
-    const connection = await getConnection();
-    const tagRepository = connection.getRepository(Tag)
-
-    return tagRepository.findOne({ where: { id } });
+    return getRepository(Tag).findOne({ where: { id } });
   } catch (error) {
     return error
   }
 }
 
 export const getTagsByPostId = async (postId: string) => {
-
   try {
-    const connection = await getConnection();
-    const tagRepository = connection.getRepository(Tag)
-
-    return tagRepository.find({ where: { postId } });
+    return getRepository(Tag).find({ where: { postId } });
   } catch (error) {
     return error
   }
@@ -32,10 +24,7 @@ export const getTagsByPostId = async (postId: string) => {
 
 export const getTags = async () => {
   try {
-    const connection = await getConnection();
-    const tagRepository = connection.getRepository(Tag);
-
-    return tagRepository.find();
+    return getRepository(Tag).find();
   } catch (error) {
     return error
   }
@@ -43,10 +32,7 @@ export const getTags = async () => {
 
 export const createTag = async (data: TagCreateBody) => {
   try {
-    const connection = await getConnection();
-    const tagRepository = connection.getRepository(Tag);
-
-    return tagRepository.save(data);
+    return getRepository(Tag).save(data);
   } catch (error) {
     return error;
   }
@@ -54,11 +40,7 @@ export const createTag = async (data: TagCreateBody) => {
 
 export const deleteTag = async (id: string) => {
   try {
-
-    const connection = await getConnection();
-    const tagRepository = connection.getRepository(Tag);
-
-    return tagRepository.delete(id);
+    return getRepository(Tag).delete(id);
   } catch (error) {
     return error;
   }

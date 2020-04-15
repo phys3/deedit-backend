@@ -18,12 +18,12 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    createTag(name: String!, postId: String!): Boolean!
+    createTag(name: String!, postId: String!): Tag!
     deleteTag(id: String!): Boolean!
   }
 
   type Tag {
-    id: Int!
+    id: String!
     name: String!
     postId: String!
     post: Post
@@ -45,10 +45,9 @@ export const resolvers = {
     createTag: async (_: any, args: any) => {
       const { name, postId } = args;
       try {
-        await createTag({ name, postId });
-        return true;
+        return createTag({ name, postId });
       } catch (error) {
-        return false;
+        return error;
       }
     },
     deleteTag: async (_: any, args: any) => {
@@ -57,7 +56,7 @@ export const resolvers = {
         await deleteTag(id);
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     }
   },

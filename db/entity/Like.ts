@@ -6,7 +6,7 @@ import { Post } from './Post'
 export class Like {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ type: 'uuid' })
     userId: string;
@@ -14,7 +14,7 @@ export class Like {
     @Column({ type: 'uuid' })
     postId: string;
 
-    @Column({ type: 'smallint' })
+    @Column({ type: 'smallint', nullable: false })
     vote: number;
 
     @Column({ type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })

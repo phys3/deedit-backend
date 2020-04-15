@@ -1,4 +1,4 @@
-import getConnection from '../db-connect'
+import { getRepository } from 'typeorm'
 import { Comment } from '../entity/Comment'
 
 type CommentCreateBody = {
@@ -13,12 +13,8 @@ type CommentUpdateBody = {
 }
 
 export const getCommentById = async (id: string) => {
-
   try {
-    const connection = await getConnection();
-    const commentRepository = connection.getRepository(Comment)
-
-    return commentRepository.findOne({ where: { id } });
+    return getRepository(Comment).findOne({ where: { id } });
   } catch (error) {
     return error
   }
@@ -26,10 +22,7 @@ export const getCommentById = async (id: string) => {
 
 export const getCommentsByPostId = async (postId: string) => {
   try {
-    const connection = await getConnection();
-    const commentRepository = connection.getRepository(Comment);
-  
-    return commentRepository.find({ where: { postId } });
+    return getRepository(Comment).find({ where: { postId } });
   } catch (error) {
     return error
   }
@@ -37,10 +30,7 @@ export const getCommentsByPostId = async (postId: string) => {
 
 export const createComment = async (data: CommentCreateBody) => {
   try {
-    const connection = await getConnection();
-    const commentRepository = connection.getRepository(Comment);
-
-    return commentRepository.save(data);
+    return getRepository(Comment).save(data);
   } catch (error) {
     return error;
   }
@@ -52,11 +42,8 @@ export const updateComment = async (data: CommentUpdateBody) => {
       id,
       content,
     } = data;
-  
-    const connection = await getConnection();
-    const commentRepository = connection.getRepository(Comment);
 
-    return commentRepository.update(id, {
+    return getRepository(Comment).update(id, {
       content,
       isEdited: true,
       // updatedAt: Date.now().toString(),
@@ -68,11 +55,7 @@ export const updateComment = async (data: CommentUpdateBody) => {
 
 export const deleteComment = async (id: string) => {
   try {
-
-    const connection = await getConnection();
-    const commentRepository = connection.getRepository(Comment);
-
-    return commentRepository.delete(id);
+    return getRepository(Comment).delete(id);
   } catch (error) {
     return error;
   }

@@ -1,7 +1,7 @@
 import * as typeorm from 'typeorm'
 
 // TODO - check this should not be needed
-import { ConnectionOptions, Connection } from 'typeorm'
+import { ConnectionOptions } from 'typeorm'
 
 import * as connectionConfig from '../ormconfig'
 
@@ -15,19 +15,12 @@ import { UserToAchievement } from './entity/UserToAchievement'
 import { Comment } from './entity/Comment'
 
 // All database calls from this application are sharing the same connection
-let connection = null as Connection | null;
-
 export default async () => {
   try {
-    if (connection === null) {
-      connection = await typeorm.createConnection({
-        ...connectionConfig,
-        entities: [ User, UserRole, Post, Tag, Like, Achievement, Comment, UserToAchievement ]
-      } as ConnectionOptions);
-      console.log("Database connection initialized");
-    }
-
-    return connection;
+    return typeorm.createConnection({
+      ...connectionConfig,
+      entities: [ User, UserRole, Post, Tag, Like, Achievement, Comment, UserToAchievement ]
+    } as ConnectionOptions);
   } catch (err) {
     throw err;
   }

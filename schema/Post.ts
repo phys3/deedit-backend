@@ -27,13 +27,13 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    createPost(title: String!, content: String!, userId: String!): Boolean!
+    createPost(title: String!, content: String!, userId: String!): Post!
     updatePost(title: String!, content: String!, id: String!): Boolean!
     deletePost(id: String!): Boolean!
   }
 
   type Post {
-    id: Int!
+    id: String!
     title: String!
     content: String!
     userId: String!
@@ -58,10 +58,9 @@ export const resolvers = {
     createPost: async (_: any, args: any) => {
       const { title, content, userId } = args;
       try {
-        await createPost({ title, content, userId });
-        return true;
+        return createPost({ title, content, userId });
       } catch (error) {
-        return false;
+        return error;
       }
     },
     updatePost: async (_: any, args: any) => {
@@ -70,7 +69,7 @@ export const resolvers = {
         await updatePost({ title, content, id });
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     },
     deletePost: async (_: any, args: any) => {
@@ -79,7 +78,7 @@ export const resolvers = {
         await deletePost(id);
         return true;
       } catch (error) {
-        return false;
+        return error;
       }
     }
   },

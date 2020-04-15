@@ -5,7 +5,7 @@ import { User } from './User'
 export class UserRole {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ length: 255, nullable: false, unique: true })
     name: string;

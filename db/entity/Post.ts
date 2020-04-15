@@ -8,7 +8,7 @@ import { Comment } from './Comment'
 export class Post {
 
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ type: 'uuid' })
     userId: string;
@@ -16,7 +16,7 @@ export class Post {
     @Column({ length: 255, nullable: false })
     title: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     content: string;
 
     @Column({ default: false })
